@@ -2,47 +2,47 @@ package com.example.user.todolist;
 
 public class ListItem {
 
-    int _id;
-    String _name;
-    String _description;
+    int id;
+    String name;
+    String description;
 
     public ListItem() {
 
     }
 
     public ListItem(int id, String name, String description) {
-        this._id = id;
-        this._name = name;
-        this._description = description;
+        this.id = id;
+        this.name = name;
+        this.description = description;
     }
 
     public ListItem(String name, String description) {
-        this._name = name;
-        this._description = description;
+        this.name = name;
+        this.description = description;
     }
 
     public int getId() {
-        return this._id;
+        return this.id;
     }
 
     public void setID(int id) {
-        this._id = id;
+        this.id = id;
     }
 
     public String getName() {
-        return this._name;
+        return this.name;
     }
 
     public void setName(String name) {
-        this._name = name;
+        this.name = name;
     }
 
     public String getDescription() {
-        return this._description;
+        return this.description;
     }
 
     public void setDescription(String description) {
-        this._description = description;
+        this.description = description;
     }
 
 

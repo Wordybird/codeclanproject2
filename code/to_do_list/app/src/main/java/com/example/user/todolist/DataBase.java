@@ -1,102 +1,121 @@
 package com.example.user.todolist;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DataBase extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "To-do List";
+    private static final String DATABASE_NAME = "ToDoList.db";
     private static final String TABLE_LIST = "Things To Do";
-
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "list_item";
     private static final String KEY_DESCRIPTION = "description";
 
-    public DatabaseHandler(Context context) {
+    public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_LIST + "("
+        String CREATE_LIST_ITEMS_TABLE = "CREATE TABLE " + TABLE_LIST + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_DESCRIPTION + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_LIST_ITEMS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST);
-
-        // Create tables again
         onCreate(db);
     }
 
+    private void runSQL(String sql) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(sql);
+    }
+
     public void addItem(ListItem listItem) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, listItem.getName());
-        values.put(KEY_DESCRIPTION, listItem.getDescription());
-        db.insert(TABLE_LIST, null, values);
-        db.close();
+        String name = listItem.getName();
+        String description = listItem.getDescription();
+        String sql = "INSERT INTO " + TABLE_LIST +
+                "(" + KEY_NAME + "," + KEY_NAME + "," + KEY_DESCRIPTION + " ) VALUES ('"
+                + name + "','" + description + "',)";
+        runSQL(sql);
     }
 
-    ListItem getItem(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_LIST, new String[]{KEY_ID, KEY_NAME, KEY_DESCRIPTION},
-                KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
+    ListItem getItemID(int id) {
+        String sql = "SELECT * FROM " + TABLE_LIST + " WHERE " + KEY_ID + " = " + id;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
             cursor.moveToFirst();
-        ListItem listItem = new ListItem(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
-        return listItem;
+            ListItem listItem = getItemfromDBCursor(cursor);
+            return listItem;
+        }
+        return null;
     }
 
-    public List<ListItem> getAllItems() {
-        List<ListItem> itemList = new ArrayList<>();
-        String selectQuery = "SELECT  * FROM " + TABLE_LIST;
+    public ListItem getItemName(String name) {
+        String sql = "SELECT * FROM " + TABLE_LIST + " WHERE " + KEY_NAME + " = '" + name + "'";
+
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            ListItem listItem = getItemfromDBCursor(cursor);
+            return listItem;
+        }
+        return null;
+    }
+
+    public ArrayList<ListItem> getAllItems() {
+        ArrayList<ListItem> itemList = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + TABLE_LIST;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             do {
-                ListItem listItem = new ListItem();
-                listItem.setID(Integer.parseInt(cursor.getString(0)));
-                listItem.setName(cursor.getString(1));
-                listItem.setDescription(cursor.getString(2));
+                ListItem listItem = getItemfromDBCursor(cursor);
                 itemList.add(listItem);
-            } while (cursor.moveToNext());
+            }
+            while (cursor.moveToNext());
         }
         return itemList;
     }
 
-    public int updateItem(ListItem listItem) {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public void updateItem(ListItem listItem) {
+        int id = listItem.getId();
+        String name = listItem.getName();
+        String description = listItem.getDescription();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, listItem.getName());
-        values.put(KEY_DESCRIPTION, listItem.getDescription());
+        String sql = "UPDATE " + TABLE_LIST + " SET "
+                + KEY_NAME + " = '" + name + "',"
+                + KEY_DESCRIPTION + " = '" + description + "',"
+                + KEY_ID + " = " + id;
 
-        // updating row
-        return db.update(TABLE_LIST, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(listItem.getId()) });
+        Log.d("Running SQL: ", sql);
+        runSQL(sql);
     }
 
     public void deleteItem(ListItem listItem) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_LIST, KEY_ID + " = ?", new String[] {
-                String.valueOf(listItem.getId())
-        });
-        db.close();
+        int id = listItem.getId();
+        String sql = "DELETE FROM " + TABLE_LIST + " WHERE " + KEY_ID + " = " + id;
+        runSQL(sql);
     }
 
+    public void deleteAllItems() {
+        String sql = "DELETE FROM " + TABLE_LIST;
+        runSQL(sql);
+    }
 
     public int getItemCount() {
         String countQuery = "SELECT  * FROM " + TABLE_LIST;
@@ -104,6 +123,18 @@ public class DataBase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
         return cursor.getCount();
+    }
+
+    private ListItem getItemfromDBCursor(Cursor cursor) {
+        int idColumnNum = cursor.getColumnIndex(KEY_ID);
+        int nameColumNum = cursor.getColumnIndex(KEY_NAME);
+        int descriptionColumnNum = cursor.getColumnIndex(KEY_DESCRIPTION);
+        int id = Integer.parseInt(cursor.getString(idColumnNum));
+        String name = cursor.getString(nameColumNum);
+        String description = cursor.getString(descriptionColumnNum);
+
+        ListItem listItem = new ListItem(id, name, description);
+        return listItem;
     }
 
 }
