@@ -1,8 +1,13 @@
 package com.example.user.todolist;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBase extends SQLiteOpenHelper {
 
@@ -33,6 +38,55 @@ public class DataBase extends SQLiteOpenHelper {
 
         // Create tables again
         onCreate(db);
+    }
+
+    public void addItem(ListItem listItem) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, listItem.getName());
+        values.put(KEY_DESCRIPTION, listItem.getDescription());
+        db.insert(TABLE_LIST, null, values);
+        db.close();
+    }
+
+    ListItem getItem(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_LIST, new String[]{KEY_ID, KEY_NAME, KEY_DESCRIPTION},
+                KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        ListItem listItem = new ListItem(Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1), cursor.getString(2));
+        return listItem;
+    }
+
+    public List<ListItem> getAllItems() {
+        List<ListItem> itemList = new ArrayList<>();
+        String selectQuery = "SELECT  * FROM " + TABLE_LIST;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                ListItem listItem = new ListItem();
+                listItem.setID(Integer.parseInt(cursor.getString(0)));
+                listItem.setName(cursor.getString(1));
+                listItem.setDescription(cursor.getString(2));
+                itemList.add(listItem);
+            } while (cursor.moveToNext());
+        }
+        return itemList;
+    }
+
+    public int updateItem(ListItem listItem) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, listItem.getName());
+        values.put(KEY_DESCRIPTION, listItem.getDescription());
+
+        // updating row
+        return db.update(TABLE_LIST, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(listItem.getId()) });
     }
 
 }
