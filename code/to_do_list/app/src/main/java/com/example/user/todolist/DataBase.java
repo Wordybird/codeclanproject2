@@ -89,4 +89,21 @@ public class DataBase extends SQLiteOpenHelper {
                 new String[] { String.valueOf(listItem.getId()) });
     }
 
+    public void deleteItem(ListItem listItem) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_LIST, KEY_ID + " = ?", new String[] {
+                String.valueOf(listItem.getId())
+        });
+        db.close();
+    }
+
+
+    public int getItemCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_LIST;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+        return cursor.getCount();
+    }
+
 }
