@@ -29,4 +29,22 @@ public class ListItem {
         this._id = id;
     }
 
+    public String getName() {
+        return this._name;
+    }
+
+    public void setName(String name) {
+        this._name = name;
+    }
+
+    public String getDescription() {
+        return this._description;
+    }
+
+    public void setDescription(String description) {
+        this._description = description;
+    }
+
+
+
 }
