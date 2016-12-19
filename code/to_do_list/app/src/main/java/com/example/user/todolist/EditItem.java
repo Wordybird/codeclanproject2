@@ -40,24 +40,23 @@ public class EditItem extends AppCompatActivity{
                 String description = descriptionEditText.getText().toString();
                 ListItem itemToUpdate = new ListItem(id, name, description);
                 db.updateItem(itemToUpdate);
-                backToPlayerView(id, name, description);
+                backToItemView(id, name, description);
             }
         });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToPlayerView(id, name, description);
+                backToItemView(id, name, description);
             }
         });
     }
 
-    private void backToPlayerView(int id, String name, String description) {
+    private void backToItemView(int id, String name, String description) {
         Intent intent = new Intent(EditItem.this, ViewItem.class);
         intent.putExtra("id", id);
         intent.putExtra("name", name);
         intent.putExtra("description", description);
-
         startActivity(intent);
     }
 }

@@ -37,12 +37,12 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = (String) listView.getItemAtPosition(position);
-                Log.d("DartPlayers: ", selectedItem + " clicked!");
-                ListItem dartPlayer = db.getItem(selectedItem);
+                Log.d("ListItems: ", selectedItem + " clicked!");
+                ListItem listItem = db.getItem(selectedItem);
                 Intent intent = new Intent(MainActivity.this, ViewItem.class);
-                intent.putExtra("id", dartPlayer.getId());
-                intent.putExtra("name", dartPlayer.getName());
-                intent.putExtra("nickname", dartPlayer.getDescription());
+                intent.putExtra("id", listItem.getId());
+                intent.putExtra("name", listItem.getName());
+                intent.putExtra("nickname", listItem.getDescription());
                 startActivity(intent);
             }
         });

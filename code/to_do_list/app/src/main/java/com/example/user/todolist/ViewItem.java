@@ -41,7 +41,7 @@ public class ViewItem extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ViewPlayer: ", "editing player with id " + id);
+                Log.d("ViewItem: ", "editing item with id " + id);
                 Intent intent = new Intent(ViewItem.this, EditItem.class);
                 intent.putExtra("id", id);
                 intent.putExtra("name", name);
@@ -53,7 +53,7 @@ public class ViewItem extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ViewPlayer: ", "deleting player with id " + id);
+                Log.d("ViewItem: ", "deleting item with id " + id);
                 db.deleteItem(id);
                 backToMainActivity();
             }
