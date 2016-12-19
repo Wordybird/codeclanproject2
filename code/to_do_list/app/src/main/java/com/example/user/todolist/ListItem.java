@@ -6,10 +6,6 @@ public class ListItem {
     String name;
     String description;
 
-    public ListItem() {
-
-    }
-
     public ListItem(int id, String name, String description) {
         this.id = id;
         this.name = name;

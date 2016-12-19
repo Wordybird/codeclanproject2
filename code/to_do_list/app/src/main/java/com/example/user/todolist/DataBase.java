@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class DataBase extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "ToDoList.db";
-    private static final String TABLE_LIST = "Things To Do";
+    private static final String DATABASE_NAME = "toDoList.db";
+    private static final String TABLE_LIST = "to_do_list";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "list_item";
     private static final String KEY_DESCRIPTION = "description";
@@ -23,15 +23,15 @@ public class DataBase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LIST_ITEMS_TABLE = "CREATE TABLE " + TABLE_LIST + "("
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_LIST + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_DESCRIPTION + " TEXT" + ")";
-        db.execSQL(CREATE_LIST_ITEMS_TABLE);
+                + KEY_DESCRIPTION + " TEXT ) ";
+        db.execSQL(CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIST );
         onCreate(db);
     }
 
@@ -44,8 +44,8 @@ public class DataBase extends SQLiteOpenHelper {
         String name = listItem.getName();
         String description = listItem.getDescription();
         String sql = "INSERT INTO " + TABLE_LIST +
-                "(" + KEY_NAME + "," + KEY_NAME + "," + KEY_DESCRIPTION + " ) VALUES ('"
-                + name + "','" + description + "',)";
+                "(" + KEY_NAME + "," + KEY_DESCRIPTION + " ) VALUES ('"
+                + name + "',' " + description + "' )";
         runSQL(sql);
     }
 
@@ -78,7 +78,7 @@ public class DataBase extends SQLiteOpenHelper {
     public ArrayList<ListItem> getAllItems() {
         ArrayList<ListItem> itemList = new ArrayList<>();
 
-        String sql = "SELECT * FROM " + TABLE_LIST;
+        String sql = "SELECT * FROM " + TABLE_LIST ;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -113,12 +113,12 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     public void deleteAllItems() {
-        String sql = "DELETE FROM " + TABLE_LIST;
+        String sql = "DELETE FROM " + TABLE_LIST ;
         runSQL(sql);
     }
 
     public int getItemCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_LIST;
+        String countQuery = "SELECT  * FROM " + TABLE_LIST ;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
@@ -126,9 +126,9 @@ public class DataBase extends SQLiteOpenHelper {
     }
 
     private ListItem getItemfromDBCursor(Cursor cursor) {
-        int idColumnNum = cursor.getColumnIndex(KEY_ID);
-        int nameColumNum = cursor.getColumnIndex(KEY_NAME);
-        int descriptionColumnNum = cursor.getColumnIndex(KEY_DESCRIPTION);
+        int idColumnNum = cursor.getColumnIndex(KEY_ID );
+        int nameColumNum = cursor.getColumnIndex(KEY_NAME );
+        int descriptionColumnNum = cursor.getColumnIndex(KEY_DESCRIPTION );
         int id = Integer.parseInt(cursor.getString(idColumnNum));
         String name = cursor.getString(nameColumNum);
         String description = cursor.getString(descriptionColumnNum);
