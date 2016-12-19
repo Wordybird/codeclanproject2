@@ -22,12 +22,12 @@ public class MainActivity extends Activity {
         listView = (ListView) findViewById(R.id.list_item);
         final DataBase db = new DataBase(this);
 
-        db.deleteAllItems();
-
-        Log.d("Insert:", "Inserting...");
-        db.addItem(new ListItem("Wash Dishes", "Dishes need to be washed!"));
-        db.addItem(new ListItem("Wash Clothes", "Clothes need to be washed too!"));
-        db.addItem(new ListItem("Vacuum Apartment", "Dust. Dust everywhere."));
+//        db.deleteAllItems();
+//
+//        Log.d("Insert:", "Inserting...");
+//        db.addItem(new ListItem("Wash Dishes", "Dishes need to be washed!"));
+//        db.addItem(new ListItem("Wash Clothes", "Clothes need to be washed too!"));
+//        db.addItem(new ListItem("Vacuum Apartment", "Dust. Dust everywhere."));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, getAllItems(db));

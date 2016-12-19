@@ -22,6 +22,10 @@
 
         </activity>
 
+        <activity android:name=".EditItem">
+
+        </activity>
+
     </application>
 
 </manifest>

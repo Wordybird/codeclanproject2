@@ -97,10 +97,10 @@ public class DataBase extends SQLiteOpenHelper {
         String name = listItem.getName();
         String description = listItem.getDescription();
 
-        String sql = "UPDATE " + TABLE_LIST + " SET "
-                + KEY_NAME + " = '" + name + "',"
-                + KEY_DESCRIPTION + " = '" + description + "',"
-                + KEY_ID + " = " + id;
+        String sql = "UPDATE " + TABLE_LIST + " SET " +
+                KEY_ID + " = " + id + ", "
+                + KEY_NAME + " = '" + name + "', "
+                + KEY_DESCRIPTION + " = '" + description + "'";
 
         Log.d("Running SQL: ", sql);
         runSQL(sql);
