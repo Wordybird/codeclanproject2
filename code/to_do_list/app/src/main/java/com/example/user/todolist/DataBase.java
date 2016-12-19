@@ -112,6 +112,11 @@ public class DataBase extends SQLiteOpenHelper {
         runSQL(sql);
     }
 
+    public void deleteItem(int id) {
+        String sql = "DELETE FROM " + TABLE_LIST + " WHERE " + KEY_ID + " = " + id;
+        runSQL(sql);
+    }
+
     public void deleteAllItems() {
         String sql = "DELETE FROM " + TABLE_LIST ;
         runSQL(sql);

@@ -19,8 +19,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         listView = (ListView) findViewById(R.id.list_item);
         final DataBase db = new DataBase(this);
 

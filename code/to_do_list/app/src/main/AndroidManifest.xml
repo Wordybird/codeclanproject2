@@ -6,7 +6,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/to_do_list"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".MainApp">
 
         <activity android:name=".MainActivity">
 
