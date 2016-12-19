@@ -17,6 +17,10 @@
 
         </activity>
 
+        <activity android:name=".ViewItem">
+
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,7 +1,9 @@
 package com.example.user.todolist;
 
-public class ViewItem {
+import android.support.v7.app.AppCompatActivity;
 
-    
+public class ViewItem extends AppCompatActivity {
+
+
 
 }
