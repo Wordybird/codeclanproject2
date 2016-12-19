@@ -45,7 +45,7 @@ public class DataBase extends SQLiteOpenHelper {
         String description = listItem.getDescription();
         String sql = "INSERT INTO " + TABLE_LIST +
                 "(" + KEY_NAME + "," + KEY_DESCRIPTION + " ) VALUES ('"
-                + name + "',' " + description + "' )";
+                + name + "','" + description + "' )";
         runSQL(sql);
     }
 
