@@ -9,7 +9,8 @@
         android:name=".MainApp"
         android:icon="@drawable/notepad">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:label="@string/to_do_list">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +20,7 @@
         </activity>
 
         <activity android:name=".ViewItem">
+
 
         </activity>
 
