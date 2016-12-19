@@ -19,8 +19,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         listView = (ListView) findViewById(R.id.list_item);
         final DataBase db = new DataBase(this);
+
+        db.deleteAllItems();
+
         Log.d("Insert:", "Inserting...");
         db.addItem(new ListItem("Wash Dishes", "Dishes need to be washed!"));
         db.addItem(new ListItem("Wash Clothes", "Clothes need to be washed too!"));
