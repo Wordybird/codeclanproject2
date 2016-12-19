@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, ViewItem.class);
                 intent.putExtra("id", listItem.getId());
                 intent.putExtra("name", listItem.getName());
-                intent.putExtra("nickname", listItem.getDescription());
+                intent.putExtra("description", listItem.getDescription());
                 startActivity(intent);
             }
         });

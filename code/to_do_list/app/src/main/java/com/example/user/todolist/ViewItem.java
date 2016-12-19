@@ -33,7 +33,7 @@ public class ViewItem extends AppCompatActivity {
         Bundle extras = intent.getExtras();
         final int id = extras.getInt("id");
         final String name = extras.getString("name");
-        final String description = extras.getString("nickname");
+        final String description = extras.getString("description");
 
         nameEditText.setText(name);
         descriptionText.setText(description);
@@ -45,7 +45,7 @@ public class ViewItem extends AppCompatActivity {
                 Intent intent = new Intent(ViewItem.this, EditItem.class);
                 intent.putExtra("id", id);
                 intent.putExtra("name", name);
-                intent.putExtra("nickname", description);
+                intent.putExtra("description", description);
                 startActivity(intent);
             }
         });
