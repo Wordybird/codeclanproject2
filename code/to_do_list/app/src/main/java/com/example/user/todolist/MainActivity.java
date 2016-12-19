@@ -2,6 +2,7 @@ package com.example.user.todolist;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +38,6 @@ public class MainActivity extends Activity {
         newItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ListItems: ", "new item button clicked");
                 Intent intent = new Intent(MainActivity.this, NewItem.class);
                 startActivity(intent);
             }
