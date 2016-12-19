@@ -49,7 +49,7 @@ public class DataBase extends SQLiteOpenHelper {
         runSQL(sql);
     }
 
-    ListItem getItemID(int id) {
+    ListItem getItem(int id) {
         String sql = "SELECT * FROM " + TABLE_LIST + " WHERE " + KEY_ID + " = " + id;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -62,7 +62,7 @@ public class DataBase extends SQLiteOpenHelper {
         return null;
     }
 
-    public ListItem getItemName(String name) {
+    public ListItem getItem(String name) {
         String sql = "SELECT * FROM " + TABLE_LIST + " WHERE " + KEY_NAME + " = '" + name + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
