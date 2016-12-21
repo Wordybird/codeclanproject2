@@ -51,7 +51,6 @@ public class DataBase extends SQLiteOpenHelper {
 
     ListItem getItem(int id) {
         String sql = "SELECT * FROM " + TABLE_LIST + " WHERE " + KEY_ID + " = " + id;
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null) {
@@ -64,7 +63,6 @@ public class DataBase extends SQLiteOpenHelper {
 
     public ListItem getItem(String name) {
         String sql = "SELECT * FROM " + TABLE_LIST + " WHERE " + KEY_NAME + " = '" + name + "'";
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor != null) {
@@ -77,9 +75,7 @@ public class DataBase extends SQLiteOpenHelper {
 
     public ArrayList<ListItem> getAllItems() {
         ArrayList<ListItem> itemList = new ArrayList<>();
-
         String sql = "SELECT * FROM " + TABLE_LIST ;
-
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
@@ -96,13 +92,10 @@ public class DataBase extends SQLiteOpenHelper {
         int id = listItem.getId();
         String name = listItem.getName();
         String description = listItem.getDescription();
-
         String sql = "UPDATE " + TABLE_LIST + " SET "
                 + KEY_NAME + " = '" + name + "', "
                 + KEY_DESCRIPTION + " = '" + description + "'"
                 + " WHERE " + KEY_ID + " = " + id;
-
-        Log.d("Running SQL: ", sql);
         runSQL(sql);
     }
 
